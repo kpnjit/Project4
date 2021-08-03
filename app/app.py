@@ -15,6 +15,60 @@ app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'awardData'
 mysql.init_app(app)
 
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if request.method == "POST":
+
+        fname = request.form.get("firstname")
+        lname = request.form.get("lastname")
+        address = request.form.get("address")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        cursor = mysql.get_db().cursor()
+        cursor.execute('SELECT email FROM information where email=%s', email)
+        checkIfemailExists = cursor.fetchall()
+        if checkIfemailExists:
+            return render_template("registration.html",
+                                   msg="Please use a different email")
+
+        client = quickemailverification.Client(QUICK_MAIL_VERIFICATION_API_KEY)
+        quickemailverification = client.quickemailverification()
+        response = quickemailverification.verify(email)
+        for i in response:
+            if i['result'] == 'valid':
+                inputData = (fname, lname, address, email, password)
+                sql_insert_query = """INSERT INTO information(firstName, lastName, address, email,password) VALUES (%s, %s,%s, %s,%s) """
+                cursor.execute(sql_insert_query, inputData)
+                mysql.get_db().commit()
+                return redirect("home.html", code=302)
+            else:
+                return render_template("registration.html",
+                                       msg=" Please try  a valid mail")
+
+    if request.method == "GET":
+        return render_template("registration.html")
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        cursor = mysql.get_db().cursor()
+        cursor.execute('SELECT email,password FROM information where email=%s and password =%s', (email, password))
+        result = cursor.fetchall()
+        json_result = json.dumps(result)
+        print(result)
+        print(json_result)
+        if (result):
+            return render_template("Homepage_Login.html", msg="Logged In Success")
+        else:
+            return render_template("login.html", msg="Invalid Login ID/Password")
+
+    if request.method == "GET":
+        return render_template("login.html")
+
 
 @app.route('/', methods=['GET'])
 def index():
