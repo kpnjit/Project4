@@ -1,25 +1,40 @@
-{% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+{% extends "layout.html" %}
+{% block body %}
+<div>
+    <h1 align="center"> Login Page</h1>
+    <br/>
+    <h3 align="center" >{{msg}}</h3>
+    <form action="" method="post">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-5" align="right">
+                    <label>Email</label>
+                </div>
+                <div class="col-sm-5">
+                   <input type="email" name="email" class="form-control" placeholder="email" required>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-sm-5" align="right">
+                    <label>Password</label>
+                </div>
+                <div class="col-sm-5">
+                   <input type="password" name="password" class="form-control" placeholder="password" required>
+                </div>
+            </div>
+            <br/>
 
-<div class="login">
-			<h1>Login</h1>
-			<div class="links">
-				<a href="{{ url_for('login') }}" class="active">Login</a>
-				<a href="{{ url_for('register') }}">Register</a>
-			</div>
-			<form action="{{ url_for('login') }}" method="post">
-				<label for="username">
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="username" placeholder="Username" id="username" required>
-				<label for="password">
-					<i class="fas fa-lock"></i>
-				</label>
-				<input type="password" name="password" placeholder="Password" id="password" required>
-				<div class="msg">{{ msg }}</div>
-				<input type="submit" value="Login">
-			</form>
-		</div>
+            <div class="row">
+                <div class="col-sm-5" align="right">
 
+                </div>
+                <div class="col-sm-5">
+                   <button class="btn btn-info" type="submit"> Login </button>
+                </div>
+            </div>
+            <br/>
+        </div>
+    </form>
+</div>
 {% endblock %}
