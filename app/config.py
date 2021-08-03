@@ -1,4 +1,4 @@
 class Config:
-    SECRET_KEY = 'AKhsQEIvhPLB678gfKL'
+    SECRET_KEY = 'GDtfDeyjiWCFYjD'
     FLASK_APP = "development"
     FLASK_ENV = "app.py"
