@@ -6,6 +6,6 @@ load_dotenv(path.join(basedir, ".env"))
 
 
 class Config:
-    SECRET_KEY = 'AKhsQEIvhPLB678gfKL'
-    FLASK_APP = "development"
-    FLASK_ENV = "app.py"
+    FLASK_APP = environ.get("FLASK_APP")
+    FLASK_ENV = environ.get("FLASK_ENV")
+    SECRET_KEY = environ.get("SECRET_KEY")
